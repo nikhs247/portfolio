@@ -17,7 +17,7 @@ const  { project} = Astro.props;
 const { Content } = await render(project);
 ---
 
-<Layout title={`${project.data.title} | Industry Work`}>
+<Layout title={`${project.data.title} | Industry Work`} description={project.data.summary}>
 	<article>
 		<header style="margin-bottom: 2rem;">
 			<h1 style="display: inline-block; margin-right: 1rem; margin-bottom: 0;">{project.data.title}</h1>

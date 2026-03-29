@@ -1,11 +1,15 @@
 ---
-const { title } = Astro.props;
+const { 
+	title,
+	description = "Portfolio of Nikhil Sreekumar, Systems Researcher specializing in edge computing and distributed systems"	
+} = Astro.props;
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content={description} />
 		<link rel="icon" type="image/jpg" href="/ns.png" />
 		<title>
 			{title}
