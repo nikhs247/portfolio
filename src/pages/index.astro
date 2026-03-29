@@ -1,0 +1,87 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// Fetch ONLY featured content
+const allResearch = await getCollection('research');
+const featuredResearch = allResearch.filter(post => post.data.featured);
+
+const allProjects = await getCollection('projects');
+const featuredProjects = allProjects.filter(project => project.data.featured);
+---
+
+<Layout title="Nikhil Sreekumar | Systems Researcher">
+	<header style="margin-bottom: 4rem; display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
+		<img 
+		src="/profile.png" 
+		alt="Nikhil Sreekumar" 
+		style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #eaeaea; flex-shrink: 0;"
+		/>
+    
+		<div style="flex: 1; min-width: 300px;">
+			<h1 style="margin-top: 0; margin-bottom: 0.5rem;">Nikhil Sreekumar</h1>
+			<p style="font-size: 1.2rem; color: #555; margin-top: 0;">
+				<strong>Systems Researcher</strong>
+			</p>
+			
+			<p style="line-height: 1.8; margin-bottom: 1.5rem;">
+				I am a Systems Researcher with over six years of experience building scalable distributed infrastructure and optimizing data management in edge computing. Currently a System Scientist at Qen Labs Inc., I specialize in bridging the gap between hardware constraints and software performance, translating theoretical edge computing research into deployable solutions. I hold a Ph.D. in Computer Science from the University of Minnesota.
+			</p>
+
+			<div style="display: flex; gap: 1.5rem; font-size: 0.95rem;">
+				<a href="https://linkedin.com/in/sreekumarnikhil" target="_blank" rel="noopener noreferrer" style="color: #0077b5; text-decoration: none; font-weight: 500;">
+					LinkedIn
+				</a>
+				<a href="https://github.com/NS-PhD-Research" target="_blank" rel="noopener noreferrer" style="color: #333; text-decoration: none; font-weight: 500;">
+					GitHub
+				</a>
+				<a href="https://scholar.google.com/citations?user=V_4N7n0AAAAJ&hl=en" target="_blank" rel="noopener noreferrer" style="color: #4285F4; text-decoration: none; font-weight: 500;">
+					Google Scholar
+				</a>
+			</div>
+		</div>
+  </header>
+
+  <section style="margin-bottom: 3rem;">
+    <h2>Featured Industry Work</h2>
+    <ul style="list-style-type: none; padding: 0;">
+      {featuredProjects.map(project => (
+        <li style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #eaeaea;">
+          <a href={`/projects/${project.id}`} style="text-decoration: none; color: #111; font-size: 1.1rem;">
+            <strong>{project.data.title}</strong>
+          </a>
+          {project.data.status && (
+            <span style="background-color: #fef08a; color: #854d0e; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-left: 0.5rem; vertical-align: middle;">
+              {project.data.status}
+            </span>
+          )}
+          <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">
+            <em>{project.data.role}</em>
+          </div>
+          <p style="margin: 0; color: #444;">{project.data.summary}</p>
+        </li>
+      ))}
+    </ul>
+    <a href="/projects" style="font-size: 0.95rem; color: #0056b3; text-decoration: none; font-weight: 500;">View all industry projects &rarr;</a>
+  </section>
+
+  <section>
+    <h2>Featured Academic Research</h2>
+    <ul style="list-style-type: none; padding: 0;">
+      {featuredResearch.map(post => (
+        <li style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #eaeaea;">
+          <a href={`/research/${post.id}`} style="text-decoration: none; color: #0369a1; font-size: 1.1rem;">
+            <strong>{post.data.title}</strong>
+          </a>
+          {post.data.status && (
+            <span style="background-color: #fef08a; color: #854d0e; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-left: 0.5rem; vertical-align: middle;">
+              {post.data.status}
+            </span>
+          )}
+          <p style="margin: 0.5rem 0 0 0; color: #444;">{post.data.summary}</p>
+        </li>
+      ))}
+    </ul>
+    <a href="/research" style="font-size: 0.95rem; color: #0284c7; text-decoration: none; font-weight: 500;">View all research publications &rarr;</a>
+  </section>
+</Layout>

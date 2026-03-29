@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const projects = await getCollection('projects');
+projects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout title="Industry Projects & Experience | Nikhil Sreekumar">
+    <header style="margin-bottom: 3rem;">
+        <h1>Industry Experience & Projects</h1>
+        <p style="color: #555; font-size: 1.1rem;">
+        Engineering robust, secure systems for real-world applications. From implementing strict hardware compliance standards to developing platform-agnostic libraries.
+        </p>
+    </header>
+
+    <section style="margin-bottom: 4rem; padding: 2rem; background-color: #f9f9f9; border-radius: 8px;">
+        <h2 style="margin-top: 0; border-bottom: 2px solid #ddd; padding-bottom: 0.5rem;">Professional Experience</h2>
+        
+        <div style="margin-bottom: 1.5rem;">
+            <h3 style="margin-bottom: 0.2rem;">AI Systems Scientist</h3>
+            <div style="font-size: 0.95rem; color: #555; margin-bottom: 0.5rem;">
+                <strong>Qen Labs Inc</strong> &bull; March 2026 - Present
+            </div>
+                <p style="margin: 0; font-size: 0.95rem;">Secured Phase 2 funding to transition the Viveka energy-optimization framework into a production-grade defense solution. Architecting a Kotlin-based Wear OS client and establishing a CMMC-compliant CI/CD pipeline via GitLab.</p>
+            </div>
+
+            <div>
+                <h3 style="margin-bottom: 0.2rem;">Software Engineer</h3>
+                <div style="font-size: 0.95rem; color: #555; margin-bottom: 0.5rem;">
+                    <strong>MathWorks</strong> &bull; July 2016 - June 2019
+                </div>
+                <p style="margin: 0; font-size: 0.95rem;">Architected a C++ traceability feature for HDL Coder to accelerate customer debugging. Expanded the internal Intermediate Representation (IR) to support structs for complex models.</p>
+        </div>
+    </section>
+
+    <h2>Selected Project Details</h2>
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+        {projects.map(project => (
+        <article style="border: 1px solid #eaeaea; padding: 1.5rem; border-radius: 8px;">
+            <h3 style="margin-top: 0; margin-bottom: 0.5rem;">
+                <a href={`/projects/${project.id}`} style="text-decoration: none; color: #111;">
+                    {project.data.title}
+                </a>
+            </h3>
+            <div style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
+                <strong>{project.data.role}</strong> &bull; {project.data.date.toISOString().split('T')[0]}
+            </div>
+
+            {project.data.funding && (
+                <div style="font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; background-color: #f3f4f6; display: inline-block; padding: 0.1rem 0.5rem; border-radius: 4px;">
+                    <strong style="color: #374151;">Funding:</strong> {project.data.funding}
+                </div>
+            )}
+            
+            <p style="margin-bottom: 1rem;">{project.data.summary}</p>
+            <a href={`/projects/${project.id}`} style="color: #0056b3; text-decoration: none; font-weight: 500;">
+                Read details &rarr;
+            </a>
+        </article>
+        ))}
+    </div>
+</Layout>

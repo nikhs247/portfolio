@@ -1,0 +1,77 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const researchPosts = await getCollection('research');
+researchPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout title="Academic Research & Education | Nikhil Sreekumar">
+    <header style="margin-bottom: 3rem;">
+        <h1>Academic Background & Research</h1>
+        <p style="color: #555; font-size: 1.1rem;">
+            Exploring the frontiers of distributed systems, edge computing, and real-time operating environments.
+        </p>
+    </header>
+
+    <section style="margin-bottom: 4rem; padding: 2rem; background-color: #f0f9ff; border-radius: 8px; border: 1px solid #bae6fd;">
+        <h2 style="margin-top: 0; color: #0369a1; border-bottom: 2px solid #bae6fd; padding-bottom: 0.5rem;">Education</h2>
+        
+        <div style="margin-bottom: 1.5rem;">
+            <h3 style="margin-bottom: 0.2rem; color: #0c4a6e;">Ph.D. in Computer Science</h3>
+            <div style="font-size: 0.95rem; color: #0369a1; margin-bottom: 0.5rem;">
+                <strong>University of Minnesota</strong> &bull; Feb 2026
+            </div>
+            <p style="margin: 0; font-size: 0.95rem;"><strong>Thesis:</strong> Application-aware Data Management in Edge Computing</p>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <h3 style="margin-bottom: 0.2rem; color: #0c4a6e;">Master of Engineering, Computer Science</h3>
+            <div style="font-size: 0.95rem; color: #0369a1; margin-bottom: 0.5rem;">
+                <strong>BITS Pilani</strong> &bull; May 2016
+            </div>
+            <p style="margin: 0; font-size: 0.95rem;"><strong>Thesis:</strong> A New Hybrid Data Structure for Multi-Node and Multi-Core Environment</p>
+        </div>
+
+        <div>
+            <h3 style="margin-bottom: 0.2rem; color: #0c4a6e;">Bachelor of Technology, Computer Science</h3>
+            <div style="font-size: 0.95rem; color: #0369a1; margin-bottom: 0.5rem;">
+                <strong>TKM College of Engineering</strong> &bull; May 2014
+            </div>
+        </div>
+    </section>
+
+    <h2 style="color: #111;">Selected Publications & Research</h2>
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+        {researchPosts.map(post => (
+        <article style="border: 1px solid #e0f2fe; background-color: #f8fafc; padding: 1.5rem; border-radius: 8px;">
+            <h3 style="margin-top: 0; margin-bottom: 0.5rem;">
+                <a href={`/research/${post.id}`} style="text-decoration: none; color: #0369a1;">
+                    {post.data.title}
+                </a>
+            </h3>
+            <div style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
+                {post.data.date.toISOString().split('T')[0]}
+            </div>
+            {post.data.funding && (
+                <div style="font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; background-color: #f3f4f6; display: inline-block; padding: 0.1rem 0.5rem; border-radius: 4px;">
+                    <strong style="color: #374151;">Funding:</strong> {post.data.funding}
+                </div>
+            )}
+            <p style="margin-bottom: 1rem;">{post.data.summary}</p>
+            
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                {post.data.tags.map(tag => (
+                    <span style="background: #e0f2fe; color: #0369a1; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">
+                        {tag}
+                    </span>
+                ))}
+            </div>
+            
+            <a href={`/research/${post.id}`} style="color: #0284c7; text-decoration: none; font-weight: 500;">
+                Read paper &rarr;
+            </a>
+        </article>
+        ))}
+    </div>
+</Layout>

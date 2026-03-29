@@ -1,0 +1,45 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+    const research = await getCollection('research');
+    return research.map(post => ({
+        params: { id: post.id },
+        props: { post },
+    }));
+}
+
+const { post } = Astro.props;
+
+const { Content } = await render(post);
+---
+
+<Layout title={`${post.data.title} | Academic Research`}>
+    <article>
+        <header style="margin-bottom: 2rem;">
+            <h1 style="display: inline-block; margin-right: 1rem; margin-bottom: 0;">{post.data.title}</h1>
+			{post.data.status && (
+				<span style="background-color: #dcfce7; color: #166534; padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; vertical-align: middle;">
+					{post.data.status}
+				</span>
+			)}
+            {post.data.funding && (
+				<p style="color: #444; font-size: 0.95rem; margin-top: 0; margin-bottom: 1rem;">
+					<span style="font-weight: 600;">Supported by:</span> {post.data.funding}
+				</p>
+			)}
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+                {post.data.tags.map(tag => (
+                    <span style="background: #e0f2fe; color: #0369a1; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">
+                        {tag}
+                    </span>
+                ))}
+            </div>
+        </header>
+        
+        <div class="markdown-content">
+            <Content />
+        </div>
+    </article>
+</Layout>
